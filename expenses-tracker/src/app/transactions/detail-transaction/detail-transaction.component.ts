@@ -28,9 +28,13 @@ export class DetailTransactionComponent implements OnInit {
   }
 
   ngOnInit() {
-    const transactionId: string|null = this.route.snapshot.paramMap.get('id');
-    if (transactionId){
-      this.transaction = this.transactionsService.getTransactionById(+transactionId);
+    const transactionId: string | null = this.route.snapshot.paramMap.get('id');
+    if (transactionId) {
+      this.transactionsService
+          .getTransactionById(+transactionId)
+          .subscribe((transaction) => {
+            this.transaction = transaction;
+          });
     }
   }
 

@@ -3,7 +3,6 @@ import {CurrencyPipe, DatePipe, NgClass, NgForOf} from "@angular/common";
 import {Transaction} from "../transaction";
 import {TransactionsService} from "../transactions.service";
 import {Router} from "@angular/router";
-import {TRANSACTIONS} from "../mock-transaction-list";
 import {FormsModule} from "@angular/forms";
 import {BorderDirective} from "../border.directive";
 
@@ -22,21 +21,28 @@ import {BorderDirective} from "../border.directive";
   styles: ``
 })
 export class AllTransactionsComponent implements OnInit {
-  transactions: Transaction[];
+  transactions: Transaction[] = [];
   searchTerm: string = '';
-  filteredTransactions: Transaction[];
+  filteredTransactions: Transaction[]  = [];
   showIncome: boolean = true;
   showExpense: boolean = true;
 
-  constructor(private router:Router) {}
+  constructor(private router:Router, private transactionsService: TransactionsService) {}
 
   ngOnInit() {
-    this.transactions = this.getSortedTransactions();
-    this.filteredTransactions = this.transactions;
+    this.transactionsService.getTransactions().subscribe(
+        (data) => {
+          this.transactions = data;
+          this.filteredTransactions = [...this.transactions];
+        },
+        (error) => {
+          console.error('Failed to fetch transactions:', error);
+        }
+    );
   }
 
   getSortedTransactions(): Transaction[] {
-    return TRANSACTIONS
+    return this.transactions
         .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   }
 

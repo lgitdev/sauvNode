@@ -28,7 +28,9 @@ export class ListTransactionComponent implements OnInit {
               private router:Router) {}
 
   ngOnInit() {
-    this.transactions = this.transactionsService.getTransactions();
+    this.transactionsService.getTransactions().subscribe((data) => {
+      this.transactions = data; // Assigne les données au tableau
+    });
     this.filteredTransactions = this.getFilteredAndSortedTransactions();
     this.incomeTransactions = this.filteredTransactions.filter(transaction => !transaction.isExpense);
     this.expenseTransactions = this.filteredTransactions.filter(transaction => transaction.isExpense);

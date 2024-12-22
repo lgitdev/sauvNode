@@ -1,37 +1,53 @@
 import { Injectable } from '@angular/core';
-import {TRANSACTIONS} from "./mock-transaction-list";
 import {Transaction} from "./transaction";
+import {HttpClient} from "@angular/common/http";
+import {map, Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransactionsService {
+  private apiUrl = 'http://localhost:4200/api/transactions'
 
-  constructor() { }
+  constructor(private http:HttpClient) { }
 
-  getTransactions(): Transaction[] {
-    return TRANSACTIONS;
+  getTransactions(): Observable<Transaction[]> {
+    return this.http.get<Transaction[]>(this.apiUrl);
   }
   // return all the expenses
-  getExpenses(): Transaction[] {
-    return TRANSACTIONS.filter((transaction) => transaction.isExpense);
+  getExpenses(): Observable<Transaction[]> {
+    return this.getTransactions().pipe(
+        map((transactions: Transaction[]) => transactions.filter((transaction) => transaction.isExpense))
+    );
   }
 
   // return all the incomes
-  getIncomes(): Transaction[] {
-    return TRANSACTIONS.filter((transaction) => !transaction.isExpense);
+  getIncomes(): Observable<Transaction[]> {
+    return this.getTransactions().pipe(
+        map((transactions) => transactions.filter((transaction) => !transaction.isExpense))
+    );
   }
 
   // calculate the balance of our database
-  calculateBalance(): number {
-    const incomes:number = this.getIncomes().reduce((total:number, transaction:Transaction):number => total + transaction.amount, 0);
-    const expenses:number = this.getExpenses().reduce((total:number, transaction:Transaction):number => total + transaction.amount, 0);
-    return incomes - expenses;
+  calculateBalance(): Observable<number> {
+    return this.getTransactions().pipe(
+        map((transactions) => {
+          const incomes = transactions
+              .filter((transaction) => !transaction.isExpense)
+              .reduce((total, transaction) => total + transaction.amount, 0);
+          const expenses = transactions
+              .filter((transaction) => transaction.isExpense)
+              .reduce((total, transaction) => total + transaction.amount, 0);
+          return incomes - expenses;
+        })
+    );
   }
 
   // find a transaction using its ID
-  getTransactionById(transactionID:number):Transaction|undefined{
-    return TRANSACTIONS.find(transaction => transaction.id == transactionID);
+  getTransactionById(transactionID: number): Observable<Transaction | undefined> {
+    return this.getTransactions().pipe(
+        map((transactions) => transactions.find((transaction) => transaction.id === transactionID))
+    );
   }
 
   getCategoryList():string[]{

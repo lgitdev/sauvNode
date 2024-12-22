@@ -9,6 +9,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sequelize from "./database/database";
 import './models/transaction';
+import transactionRoutes from './routes/transactionRoutes'; // Import de la route
 
 const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 const browserDistFolder = resolve(serverDistFolder, '../browser');
@@ -45,8 +46,8 @@ sequelize.sync({ alter: true }) // Utilise alter au lieu de force pour ne pas to
     .then(() => console.log('Database synchronized.'))
     .catch(err => console.error('Error synchronizing database:', err));
 
-app.listen(3000, () => {
-    console.log('Server is running on http://localhost:3000');
+app.listen(4200, () => {
+    console.log('Server is running on http://localhost:4200');
 });
 
 app.get('/api/db-check', async (req, res) => {
@@ -58,6 +59,8 @@ app.get('/api/db-check', async (req, res) => {
         res.status(500).json({ message: 'Database connection failed.', error: error.message });
     }
 });
+
+app.use('/api/transactions', transactionRoutes);
 
 /**
  * Handle all other requests by rendering the Angular application.
