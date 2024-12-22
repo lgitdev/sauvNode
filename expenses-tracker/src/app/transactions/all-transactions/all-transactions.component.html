@@ -7,8 +7,22 @@
     <h1 class="m-0">Expense Tracker</h1>
 </div>
 
+
+
 <div class="container mt-4">
-    <h2 class="text-center">Recent Transactions</h2>
+    <h2 class="text-center">All Transactions</h2>
+
+    <!-- search for a specific transaction -->
+    <div class="mb-3">
+        <input
+                type="text"
+                class="form-control"
+                placeholder="Search by description, category, date, amount or tags..."
+                [(ngModel)]="searchTerm"
+                (input)="filterTransactions()"
+        />
+    </div>
+
     <table class="table table-striped table-bordered">
         <thead class="table-dark">
         <tr>
@@ -32,13 +46,4 @@
         </tr>
         </tbody>
     </table>
-</div>
-
-<div class="text-center mt-4">
-    <button
-            class="btn btn-primary"
-            (click)="redirectToTransactions()"
-    >
-        See all transactions
-    </button>
 </div>

@@ -1,0 +1,57 @@
+<div *ngIf="transaction" class="row justify-content-center my-4">
+    <!-- display the transaction if it exists, otherwise display an error message -->
+    <div class="col-12 col-md-8">
+        <h2 class="text-center mb-4">{{ transaction.description }}</h2>
+        <div class="card shadow">
+            <div class="row g-0">
+                <!-- Amount on the left -->
+                <div class="col-md-4 d-flex align-items-center justify-content-center bg-light"
+                     [ngClass]="{'text-success': !transaction.isExpense, 'text-danger': transaction.isExpense}">
+                    <h3><strong>{{ transaction.amount | currency }}</strong></h3>
+                </div>
+                <!-- Details of the transaction -->
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <table class="table table-bordered">
+                            <tbody>
+                            <tr>
+                                <!-- Date -->
+                                <td><strong>Date</strong></td>
+                                <td>{{ transaction.date | date: 'dd/MM/yyyy' }}</td>
+                            </tr>
+                            <tr>
+                                <!-- Category -->
+                                <td><strong>Category</strong></td>
+                                <td>{{ transaction.category }}</td>
+                            </tr>
+                            <tr>
+                                <!-- Payment method -->
+                                <td><strong>Payment Method</strong></td>
+                                <td>{{ transaction.paymentMethod }}</td>
+                            </tr>
+                            <tr>
+                                <!-- Tags with personalized background with the pipe -->
+                                <td><strong>Tags</strong></td>
+                                <td>
+                    <span
+                            *ngFor="let tag of transaction.tags"
+                            [class]="tag | transactionTagFormat"
+                    >
+                      {{ tag }}
+                    </span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Button to edit or go back to dahsboard -->
+                    <div class="card-footer text-end">
+                        <a (click)="goToTransactionList()" class="btn btn-secondary">Go Back to Dashboard</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h4 *ngIf="!transaction" class="text-center text-danger mt-4">There are no transactions available</h4>

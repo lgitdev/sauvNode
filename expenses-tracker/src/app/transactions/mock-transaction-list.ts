@@ -6,11 +6,11 @@ export const TRANSACTIONS: Transaction[] = [
         id: 1,
         amount: 50.0,
         isExpense: true,
-        date: new Date('2024-12-01'),
+        date: new Date('2024-05-01'),
         category: 'Food',
         description: 'Restaurant dinner',
         paymentMethod: 'Card',
-        tags: ['restaurant', 'hobbies']
+        tags: ['Restaurant', 'Hobbies']
     },
     {
         id: 2,
@@ -30,7 +30,7 @@ export const TRANSACTIONS: Transaction[] = [
         category: 'Transport',
         description: 'Mensual transport card payment',
         paymentMethod: 'Card',
-        tags: ['transport']
+        tags: ['Transport']
     },
     {
         id: 4,

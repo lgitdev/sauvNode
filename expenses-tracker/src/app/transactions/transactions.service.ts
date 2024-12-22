@@ -28,4 +28,9 @@ export class TransactionsService {
     const expenses:number = this.getExpenses().reduce((total:number, transaction:Transaction):number => total + transaction.amount, 0);
     return incomes - expenses;
   }
+
+  // find a transaction using its ID
+  getTransactionById(transactionID:number):Transaction|undefined{
+    return TRANSACTIONS.find(transaction => transaction.id == transactionID);
+  }
 }

@@ -2,13 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {Routes} from "@angular/router";
 import {ListTransactionComponent} from "./list-transaction/list-transaction.component";
-import {ExpensesComponent} from "./expenses/expenses.component";
-import {IncomesComponent} from "./incomes/incomes.component";
+import {DetailTransactionComponent} from "./detail-transaction/detail-transaction.component";
+import {AllTransactionsComponent} from "./all-transactions/all-transactions.component";
 
 export const transactionRoutes: Routes = [
   { path:'dashboard', component: ListTransactionComponent},
-  { path:'expenses/:id', component: ExpensesComponent},
-  { path:'incomes/:id', component: IncomesComponent}
+  { path:'detail/:id', component: DetailTransactionComponent},
+  { path:'transactions', component: AllTransactionsComponent}
 ];
 
 @NgModule({
