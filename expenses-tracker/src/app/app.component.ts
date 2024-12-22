@@ -4,12 +4,9 @@ import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet],
-  template: `
-    <h1>Welcome to {{title}}!</h1>
-
-    <router-outlet />
-  `,
+  templateUrl: 'app.component.html',
   styles: [],
+  standalone: true
 })
 export class AppComponent {
   title = 'expenses-tracker';
