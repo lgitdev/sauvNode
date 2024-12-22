@@ -1,5 +1,5 @@
 export class Transaction {
-    id: number;
+    id?: number;
     amount: number;
     isExpense: boolean; // expense (true) or income (false)
     date: Date;

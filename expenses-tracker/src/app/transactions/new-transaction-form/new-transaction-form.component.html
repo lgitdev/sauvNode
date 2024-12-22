@@ -1,0 +1,158 @@
+<form (ngSubmit)="onSubmit()" #transactionForm="ngForm" class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-body">
+
+                    <!-- Income/Expense Selection -->
+                    <div class="form-group mb-3">
+                        <label class="form-label">Type</label>
+                        <div class="form-check">
+                            <input
+                                    type="radio"
+                                    class="form-check-input"
+                                    id="incomeRadio"
+                                    name="type"
+                                    [value]="false"
+                                    [checked]="!transaction.isExpense"
+                                    (change)="selectType(false)"
+                            />
+                            <label class="form-check-label" for="incomeRadio">Income</label>
+                        </div>
+                        <div class="form-check">
+                            <input
+                                    type="radio"
+                                    class="form-check-input"
+                                    id="expenseRadio"
+                                    name="type"
+                                    [value]="true"
+                                    [checked]="transaction.isExpense"
+                                    (change)="selectType(true)"
+                            />
+                            <label class="form-check-label" for="expenseRadio">Expense</label>
+                        </div>
+                    </div>
+
+
+                    <!-- Description -->
+                    <div class="form-group mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="description"
+                                required
+                                pattern="^[a-zA-Z0-9àéèç\s]{1,50}$"
+                                [(ngModel)]="transaction.description"
+                                name="description"
+                                #description="ngModel"
+                        />
+                        <div
+                                class="invalid-feedback d-block"
+                                *ngIf="!description.valid && !description.pristine"
+                        >
+                            Description required (1-50).
+                        </div>
+                    </div>
+
+                    <!-- Amount -->
+                    <div class="form-group mb-3">
+                        <label for="amount" class="form-label">Amount</label>
+                        <input
+                                type="number"
+                                class="form-control"
+                                id="amount"
+                                required
+                                [(ngModel)]="transaction.amount"
+                                name="amount"
+                                #amount="ngModel"
+                        />
+                        <div
+                                class="invalid-feedback d-block"
+                                *ngIf="!amount.valid && !amount.pristine"
+                        >
+                            Amount should be between 0 and 99,999$.
+                        </div>
+                    </div>
+
+                    <!-- Category -->
+                    <div class="form-group mb-3">
+                        <label for="categories" class="form-label">Category</label>
+                        <div *ngFor="let category of categories" class="form-check">
+                            <input
+                                    type="radio"
+                                    class="form-check-input"
+                                    name="categories"
+                                    id="{{ category }}"
+                                    [value]="category"
+                                    [checked]="transaction.category === category"
+                                    (change)="selectCategory(category)"
+                            />
+                            <label class="form-check-label" [attr.for]="category">
+                                {{ category }}
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Payment method -->
+                    <div class="form-group mb-3">
+                        <label for="payment" class="form-label">Payment Method</label>
+                        <div *ngFor="let payment of paymentMethods" class="form-check">
+                            <input
+                                    type="radio"
+                                    class="form-check-input"
+                                    name="payment"
+                                    id="{{ payment }}"
+                                    [value]="payment"
+                                    [checked]="transaction.paymentMethod === payment"
+                                    (change)="selectPayment(payment)"
+                            />
+                            <label class="form-check-label" [attr.for]="payment">
+                                {{ payment }}
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Tags -->
+                    <div class="form-group mb-3">
+                        <label for="tags" class="form-label">Tags (separated by commas)</label>
+                        <input
+                                type="text"
+                                class="form-control"
+                                id="tags"
+                                [(ngModel)]="tagsInput"
+                                name="tags"
+                                (change)="updateTags(tagsInput)"
+                        />
+                        <small class="text-muted">Example: Restaurant, Hobbies</small>
+                        <div class="mt-2">
+              <span
+                      *ngFor="let tag of transaction.tags; let i = index"
+                      class="badge bg-primary text-light me-2"
+              >
+                {{ tag }}
+                  <button
+                          type="button"
+                          class="btn-close btn-close-white ms-1"
+                          aria-label="Close"
+                          (click)="removeTag(i)"
+                  ></button>
+              </span>
+                        </div>
+                    </div>
+
+                    <!-- Submit button -->
+                    <div class="text-center">
+                        <button
+                                type="submit"
+                                class="btn btn-primary"
+                                [disabled]="!transactionForm.form.valid"
+                        >
+                            Submit
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

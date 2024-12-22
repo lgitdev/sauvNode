@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {CurrencyPipe, DatePipe, NgClass, NgForOf} from "@angular/common";
 import {Transaction} from "../transaction";
 import {TransactionsService} from "../transactions.service";
-import {Router} from "@angular/router";
+import {NavigationEnd, Router} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import {BorderDirective} from "../border.directive";
 
@@ -30,16 +30,22 @@ export class AllTransactionsComponent implements OnInit {
   constructor(private router:Router, private transactionsService: TransactionsService) {}
 
   ngOnInit() {
-    this.transactionsService.getTransactions().subscribe(
-        (data) => {
-          this.transactions = data;
-          this.filteredTransactions = [...this.transactions];
-        },
-        (error) => {
-          console.error('Failed to fetch transactions:', error);
-        }
-    );
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.loadTransactions(); // reload data every time
+      }
+    });
+    this.loadTransactions();
   }
+
+  private loadTransactions() {
+    this.transactionsService.getTransactions().subscribe({
+      next: (data) => {
+        this.transactions = data;
+        this.filterTransactions();
+      }});
+  }
+
 
   getSortedTransactions(): Transaction[] {
     return this.transactions
@@ -52,22 +58,42 @@ export class AllTransactionsComponent implements OnInit {
 
   filterTransactions() {
     const term = this.searchTerm.toLowerCase();
-    this.filteredTransactions = this.transactions.filter(transaction => {
-      const matchesDescription = transaction.description.toLowerCase().includes(term);
-      const matchesCategory = transaction.category.toLowerCase().includes(term);
-      const matchesTags = transaction.tags.some(tag => tag.toLowerCase().includes(term));
-      const matchesDate = transaction.date.toISOString().toLowerCase().includes(term);
-      const matchesAmount = transaction.amount.toString().includes(term);
+    const sortedTransactions = this.getSortedTransactions();
+    this.filteredTransactions = sortedTransactions.filter(transaction => {
+      const matchesDescription = transaction.description?.toLowerCase().includes(term) || false;
+      const matchesCategory = transaction.category?.toLowerCase().includes(term) || false;
+      const matchesTags = transaction.tags?.some(tag => tag.toLowerCase().includes(term)) || false;
+      const matchesAmount = transaction.amount?.toString().includes(term) || false;
 
       const matchesSearchTerm =
-          matchesDescription || matchesCategory || matchesTags || matchesDate || matchesAmount;
+          matchesDescription || matchesCategory || matchesTags || matchesAmount;
 
+      // Vérifie si la transaction correspond aux checkboxes Income/Expense
       const matchesIncome = this.showIncome && !transaction.isExpense;
       const matchesExpense = this.showExpense && transaction.isExpense;
 
-
+      // Combine les deux conditions
       return matchesSearchTerm && (matchesIncome || matchesExpense);
     });
   }
+
+  deleteTransaction(transactionId?: number) {
+    if (transactionId !== undefined) {
+      this.transactionsService.deleteTransaction(transactionId).subscribe({
+        next: () => {
+          this.router.navigate(['/delete-success']);
+        },
+        error: (err) => {
+          console.error('Failed to delete transaction:', err);
+          alert('An error occurred while deleting the transaction.');
+        },
+      });
+    } else {
+      alert('Transaction ID is missing.');
+    }
+  }
+
+
+
 
 }

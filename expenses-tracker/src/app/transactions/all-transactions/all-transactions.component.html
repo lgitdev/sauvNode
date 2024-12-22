@@ -43,7 +43,7 @@
         <input
                 type="text"
                 class="form-control"
-                placeholder="Search by description, category, date, amount or tags..."
+                placeholder="Search by description, category, amount or tags..."
                 [(ngModel)]="searchTerm"
                 (input)="filterTransactions()"
         />
@@ -56,6 +56,7 @@
             <th>Amount</th>
             <th>Date</th>
             <th>Category</th>
+            <th>Delete</th>
         </tr>
         </thead>
         <tbody>
@@ -69,7 +70,13 @@
             <td>{{ transaction.amount | currency }}</td>
             <td>{{ transaction.date | date: 'dd/MM/yyyy' }}</td>
             <td>{{ transaction.category }}</td>
+            <td>
+                <button class="btn btn-danger btn-sm" (click)="deleteTransaction(transaction.id)">
+                    <img src="https://img.icons8.com/?size=100&id=102350&format=png" alt="Delete" style="width: 20px; height: 20px;">
+                </button>
+            </td>
         </tr>
+
         </tbody>
     </table>
 </div>

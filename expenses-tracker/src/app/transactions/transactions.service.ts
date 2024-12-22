@@ -70,5 +70,18 @@ export class TransactionsService {
     return ["Transfer",'Cash',"Card"];
   }
 
+  updateTransaction(transaction: Transaction): Observable<Transaction> {
+    return this.http.put<Transaction>(`${this.apiUrl}/${transaction.id}`, transaction);
+  }
+
+  deleteTransaction(id: number | undefined): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+
+  createTransaction(transaction: Transaction): Observable<Transaction> {
+    return this.http.post<Transaction>(this.apiUrl, transaction);
+  }
+
 
 }

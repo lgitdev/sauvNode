@@ -34,7 +34,16 @@ export class EditTransactionFormComponent implements OnInit {
   }
 
   onSubmit(){
-    this.router.navigate(["/detail",this.transaction.id]);
+    if (this.transaction) {
+      this.transactionsService.updateTransaction(this.transaction).subscribe({
+        next: (updatedTransaction) => {
+          this.router.navigate(["/detail", updatedTransaction.id]);
+        },
+        error: (err) => {
+          alert('An error occurred while updating the transaction.');
+        }
+      });
+    }
   }
 
   selectCategory(category: string): void {
