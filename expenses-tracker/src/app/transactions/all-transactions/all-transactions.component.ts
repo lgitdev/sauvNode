@@ -23,6 +23,8 @@ export class AllTransactionsComponent implements OnInit {
   transactions: Transaction[];
   searchTerm: string = '';
   filteredTransactions: Transaction[];
+  showIncome: boolean = false;
+  showExpense: boolean = false;
 
   constructor(private router:Router) {}
 
@@ -48,7 +50,15 @@ export class AllTransactionsComponent implements OnInit {
       const matchesTags = transaction.tags.some(tag => tag.toLowerCase().includes(term));
       const matchesDate = transaction.date.toISOString().toLowerCase().includes(term);
       const matchesAmount = transaction.amount.toString().includes(term);
-      return matchesDescription || matchesCategory || matchesTags || matchesDate || matchesAmount;
+
+      const matchesSearchTerm =
+          matchesDescription || matchesCategory || matchesTags || matchesDate || matchesAmount;
+
+      const matchesIncome = this.showIncome && !transaction.isExpense;
+      const matchesExpense = this.showExpense && transaction.isExpense;
+
+
+      return matchesSearchTerm && (matchesIncome || matchesExpense);
     });
   }
 

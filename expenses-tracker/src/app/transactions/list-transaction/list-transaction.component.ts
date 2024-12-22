@@ -19,6 +19,8 @@ import {Router} from "@angular/router";
 export class ListTransactionComponent implements OnInit {
   transactions: Transaction[];
   filteredTransactions: Transaction[] = [];
+  incomeTransactions: Transaction[] = [];
+  expenseTransactions: Transaction[] = [];
 
   constructor(private transactionsService: TransactionsService,
               private router:Router) {}
@@ -26,6 +28,8 @@ export class ListTransactionComponent implements OnInit {
   ngOnInit() {
     this.transactions = this.transactionsService.getTransactions();
     this.filteredTransactions = this.getFilteredAndSortedTransactions();
+    this.incomeTransactions = this.filteredTransactions.filter(transaction => !transaction.isExpense);
+    this.expenseTransactions = this.filteredTransactions.filter(transaction => transaction.isExpense);
   }
 
   // method to display only the recent transactions, and from newest to oldest

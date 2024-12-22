@@ -12,6 +12,32 @@
 <div class="container mt-4">
     <h2 class="text-center">All Transactions</h2>
 
+    <!-- Filter with expenses and incomes to display only selection -->
+    <div class="mb-3 d-flex justify-content-center">
+        <div class="form-check form-check-inline">
+            <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="incomeCheckbox"
+                    [(ngModel)]="showIncome"
+                    (change)="filterTransactions()"
+                    checked
+            />
+            <label class="form-check-label" for="incomeCheckbox">Income</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="expenseCheckbox"
+                    [(ngModel)]="showExpense"
+                    (change)="filterTransactions()"
+                    checked
+            />
+            <label class="form-check-label" for="expenseCheckbox">Expense</label>
+        </div>
+    </div>
+
     <!-- search for a specific transaction -->
     <div class="mb-3">
         <input
