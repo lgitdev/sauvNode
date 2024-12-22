@@ -3,6 +3,7 @@ import {Transaction} from "../transaction";
 import {TransactionsService} from "../transactions.service";
 import {CurrencyPipe, DatePipe, NgClass, NgForOf} from "@angular/common";
 import {Router} from "@angular/router";
+import {BorderDirective} from "../border.directive";
 
 @Component({
   selector: 'app-list-transaction',
@@ -10,7 +11,8 @@ import {Router} from "@angular/router";
     NgForOf,
     CurrencyPipe,
     DatePipe,
-    NgClass
+    NgClass,
+    BorderDirective
   ],
   templateUrl: './list-transaction.component.html',
   standalone: true,

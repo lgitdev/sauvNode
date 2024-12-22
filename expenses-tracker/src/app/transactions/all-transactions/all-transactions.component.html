@@ -63,7 +63,7 @@
             [ngClass]="{
           'table-success': !transaction.isExpense,
           'table-danger': transaction.isExpense
-        }" (click)="goToTransaction(transaction)"
+        }" (click)="goToTransaction(transaction)" appBorder
         >
             <td>{{ transaction.description }}</td>
             <td>{{ transaction.amount | currency }}</td>

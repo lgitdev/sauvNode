@@ -24,6 +24,7 @@
           'table-success': !transaction.isExpense,
           'table-danger': transaction.isExpense
         }" (click)="goToTransaction(transaction)"
+            appBorder
         >
             <td>{{ transaction.description }}</td>
             <td>{{ transaction.amount | currency }}</td>
@@ -52,7 +53,7 @@
             <h3 class="text-center text-success">Income</h3>
             <ul class="list-group">
                 <li *ngFor="let income of incomeTransactions" class="list-group-item"
-                    (click)="goToTransaction(income)">
+                    (click)="goToTransaction(income)" appBorder>
                     <strong>{{ income.description }}</strong> - {{ income.amount | currency }}
                 </li>
             </ul>
@@ -63,7 +64,7 @@
             <h3 class="text-center text-danger">Expenses</h3>
             <ul class="list-group">
                 <li *ngFor="let expense of expenseTransactions" class="list-group-item"
-                    (click)="goToTransaction(expense)">
+                    (click)="goToTransaction(expense)" appBorder>
                     <strong>{{ expense.description }}</strong> - {{ expense.amount | currency }}
                 </li>
             </ul>

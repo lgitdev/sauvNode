@@ -38,9 +38,9 @@ export class DetailTransactionComponent implements OnInit {
     this.router.navigate(['/transactions']);
   }
 
-  /*
+
   goToEditTransaction(transaction: Transaction){
-    this.router.navigate(['/edit/pokemon', pokemon.id]);
-  }*/
+    this.router.navigate(['/edit', transaction.id]);
+  }
 
 }

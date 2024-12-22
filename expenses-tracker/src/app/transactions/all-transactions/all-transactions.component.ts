@@ -5,6 +5,7 @@ import {TransactionsService} from "../transactions.service";
 import {Router} from "@angular/router";
 import {TRANSACTIONS} from "../mock-transaction-list";
 import {FormsModule} from "@angular/forms";
+import {BorderDirective} from "../border.directive";
 
 @Component({
   selector: 'app-all-transactions',
@@ -13,7 +14,8 @@ import {FormsModule} from "@angular/forms";
     DatePipe,
     NgForOf,
     NgClass,
-    FormsModule
+    FormsModule,
+    BorderDirective
   ],
   templateUrl: './all-transactions.component.html',
   standalone: true,
@@ -23,8 +25,8 @@ export class AllTransactionsComponent implements OnInit {
   transactions: Transaction[];
   searchTerm: string = '';
   filteredTransactions: Transaction[];
-  showIncome: boolean = false;
-  showExpense: boolean = false;
+  showIncome: boolean = true;
+  showExpense: boolean = true;
 
   constructor(private router:Router) {}
 

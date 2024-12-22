@@ -33,4 +33,26 @@ export class TransactionsService {
   getTransactionById(transactionID:number):Transaction|undefined{
     return TRANSACTIONS.find(transaction => transaction.id == transactionID);
   }
+
+  getCategoryList():string[]{
+    return [
+      'Salary',
+      'Food',
+      'Transport',
+      'Hobbies',
+      'Rent',
+      'Utilities',
+      'Healthcare',
+      'Shopping',
+      'Investment',
+      'Gift',
+      'Others'
+    ];
+  }
+
+  getPaymentMethods(): string[]{
+    return ["Transfer",'Cash',"Card"];
+  }
+
+
 }
