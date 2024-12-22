@@ -7,6 +7,8 @@ import {
 import express from 'express';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import sequelize from "./database/database";
+import './models/transaction';
 
 const serverDistFolder = dirname(fileURLToPath(import.meta.url));
 const browserDistFolder = resolve(serverDistFolder, '../browser');
@@ -37,6 +39,26 @@ app.use(
   }),
 );
 
+// Route pour tester la connexion à la base de données
+
+sequelize.sync({ alter: true }) // Utilise alter au lieu de force pour ne pas tout supprimer
+    .then(() => console.log('Database synchronized.'))
+    .catch(err => console.error('Error synchronizing database:', err));
+
+app.listen(3000, () => {
+    console.log('Server is running on http://localhost:3000');
+});
+
+app.get('/api/db-check', async (req, res) => {
+    try {
+        await sequelize.authenticate(); // Vérifie la connexion à la base de données
+        res.status(200).json({ message: 'Database connection successful!' });
+    } catch (error) {
+        // @ts-ignore
+        res.status(500).json({ message: 'Database connection failed.', error: error.message });
+    }
+});
+
 /**
  * Handle all other requests by rendering the Angular application.
  */
@@ -59,6 +81,9 @@ if (isMainModule(import.meta.url)) {
     console.log(`Node Express server listening on http://localhost:${port}`);
   });
 }
+
+
+
 
 /**
  * The request handler used by the Angular CLI (dev-server and during build).
