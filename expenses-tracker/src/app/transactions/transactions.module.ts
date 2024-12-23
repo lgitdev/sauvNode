@@ -8,6 +8,7 @@ import {EditTransactionComponent} from "./edit-transaction/edit-transaction.comp
 import {NewTransactionFormComponent} from "./new-transaction-form/new-transaction-form.component";
 import {DeleteSuccessComponent} from "./delete-success/delete-success.component";
 import {StatisticsComponent} from "./statistics/statistics.component";
+import {AgGridComponent} from "./ag-grid/ag-grid.component";
 
 export const transactionRoutes: Routes = [
   { path:'dashboard', component: ListTransactionComponent},
@@ -17,6 +18,7 @@ export const transactionRoutes: Routes = [
   { path: 'new-transaction', component: NewTransactionFormComponent },
   { path: 'delete-success', component: DeleteSuccessComponent },
   { path: 'statistics', component: StatisticsComponent},
+  { path: 'transactions-grid', component: AgGridComponent },
 
 ];
 
