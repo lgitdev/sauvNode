@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {CurrencyPipe, DatePipe, NgClass, NgForOf} from "@angular/common";
 import {Transaction} from "../transaction";
 import {TransactionsService} from "../transactions.service";
-import {NavigationEnd, Router} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {FormsModule} from "@angular/forms";
 import {BorderDirective} from "../border.directive";
 
@@ -27,9 +27,18 @@ export class AllTransactionsComponent implements OnInit {
   showIncome: boolean = true;
   showExpense: boolean = true;
 
-  constructor(private router:Router, private transactionsService: TransactionsService) {}
+  constructor(private router:Router,
+              private transactionsService: TransactionsService,
+              private route: ActivatedRoute) {}
 
   ngOnInit() {
+
+    this.route.queryParams.subscribe((params) => {
+      this.showIncome = params['showIncome'] === 'true';
+      this.showExpense = params['showExpense'] === 'true';
+      this.filterTransactions();
+    });
+
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.loadTransactions(); // reload data every time

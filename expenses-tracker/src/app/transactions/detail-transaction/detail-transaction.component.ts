@@ -39,7 +39,7 @@ export class DetailTransactionComponent implements OnInit {
   }
 
   goToTransactionList() {
-    this.router.navigate(['/transactions']);
+    this.router.navigate(['/transactions'], { queryParams: { showIncome: true, showExpense: true } });
   }
 
 
