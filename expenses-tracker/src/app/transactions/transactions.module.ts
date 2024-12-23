@@ -12,13 +12,13 @@ import {AgGridComponent} from "./ag-grid/ag-grid.component";
 
 export const transactionRoutes: Routes = [
   { path:'dashboard', component: ListTransactionComponent},
-  { path:'detail/:id', component: DetailTransactionComponent},
-  { path:'transactions', component: AllTransactionsComponent},
+  { path:'detail/:id', component: DetailTransactionComponent },
+  { path:'transactions', component: AllTransactionsComponent },
   { path:'edit/:id', component:EditTransactionComponent},
   { path: 'new-transaction', component: NewTransactionFormComponent },
   { path: 'delete-success', component: DeleteSuccessComponent },
-  { path: 'statistics', component: StatisticsComponent},
-  { path: 'transactions-grid', component: AgGridComponent },
+  { path: 'statistics', component: StatisticsComponent },
+  { path: 'transactions-grid', component: AgGridComponent  },
 
 ];
 

@@ -30,6 +30,7 @@ export class StatisticsComponent implements OnInit {
 
   private loadBarChart(): void {
     this.transactionsService.getExpensesByCategory().subscribe((data) => {
+      console.log('Bar Chart Data:', data); // Vérifiez ce que retourne l'API
       const categories = data.map((item) => item.category);
       const totals = data.map((item) => item.total);
 
@@ -59,6 +60,8 @@ export class StatisticsComponent implements OnInit {
           },
         ],
       };
+
+      console.log('Bar Chart Options:', this.barChartOptions);
     });
   }
 
