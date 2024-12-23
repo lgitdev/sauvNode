@@ -86,5 +86,11 @@ export class ListTransactionComponent implements OnInit {
     this.router.navigate(["/transactions"])
   }
 
+  getNetTotal(): number {
+    const totalIncome = this.incomeTransactions.reduce((sum, transaction) => sum + transaction.amount, 0);
+    const totalExpense = this.expenseTransactions.reduce((sum, transaction) => sum + transaction.amount, 0);
+    return totalIncome - totalExpense;
+  }
+
 
 }

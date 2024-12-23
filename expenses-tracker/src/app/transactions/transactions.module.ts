@@ -7,6 +7,7 @@ import {AllTransactionsComponent} from "./all-transactions/all-transactions.comp
 import {EditTransactionComponent} from "./edit-transaction/edit-transaction.component";
 import {NewTransactionFormComponent} from "./new-transaction-form/new-transaction-form.component";
 import {DeleteSuccessComponent} from "./delete-success/delete-success.component";
+import {StatisticsComponent} from "./statistics/statistics.component";
 
 export const transactionRoutes: Routes = [
   { path:'dashboard', component: ListTransactionComponent},
@@ -15,6 +16,7 @@ export const transactionRoutes: Routes = [
   { path:'edit/:id', component:EditTransactionComponent},
   { path: 'new-transaction', component: NewTransactionFormComponent },
   { path: 'delete-success', component: DeleteSuccessComponent },
+  { path: 'statistics', component: StatisticsComponent},
 
 ];
 

@@ -83,5 +83,55 @@ export class TransactionsService {
     return this.http.post<Transaction>(this.apiUrl, transaction);
   }
 
+  getExpensesByCategory(): Observable<{ category: string; total: number }[]> {
+    return this.getExpenses().pipe(
+        map((expenses) => {
+          const categoryTotals: { [key: string]: number } = {};
+          expenses.forEach((expense) => {
+            if (!categoryTotals[expense.category]) {
+              categoryTotals[expense.category] = 0;
+            }
+            categoryTotals[expense.category] += expense.amount;
+          });
+          return Object.entries(categoryTotals).map(([category, total]) => ({
+            category,
+            total,
+          }));
+        })
+    );
+  }
+
+  getMonthlyTransactions(): Observable<{ month: string; incomes: number; expenses: number }[]> {
+    return this.getTransactions().pipe(
+        map((transactions) => {
+          const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+          const monthlyData: { [key: string]: { incomes: number; expenses: number } } = {};
+
+          transactions.forEach((transaction) => {
+            const date = new Date(transaction.date);
+            const month = monthNames[date.getMonth()];
+            if (!monthlyData[month]) {
+              monthlyData[month] = { incomes: 0, expenses: 0 };
+            }
+            if (transaction.isExpense) {
+              monthlyData[month].expenses += transaction.amount;
+            } else {
+              monthlyData[month].incomes += transaction.amount;
+            }
+          });
+
+          return Object.entries(monthlyData).map(([month, { incomes, expenses }]) => ({
+            month,
+            incomes,
+            expenses,
+          }));
+        })
+    );
+  }
+
+
+
+
+
 
 }
